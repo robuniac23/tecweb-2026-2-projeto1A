@@ -1,7 +1,7 @@
 import socket
 from pathlib import Path
 from utils import extract_route, read_file, build_response
-from views import index, deletar, editar, pagina_nao_encontrada
+from views import index, deletar, editar, pagina_nao_encontrada, favoritar
 
 CUR_DIR = Path(__file__).parent
 SERVER_HOST = 'localhost'
@@ -36,6 +36,9 @@ while True:
     elif len(partes_rota) == 2 and partes_rota[0] == 'edit':
         note_id = int(partes_rota[1])
         response = editar(request, note_id)
+    elif len(partes_rota) == 2 and partes_rota[0] == 'favorite':
+        note_id = int(partes_rota[1])
+        response = favoritar(request, note_id)
     else:
         response = pagina_nao_encontrada(request)
 

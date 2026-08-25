@@ -23,7 +23,8 @@ def index(request):
     note_template = load_template('components/note.html')
     notes_li = []
     for nota in db.get_all():
-        notes_li.append(note_template.format(id=nota.id, title=nota.title, details=nota.content))
+        favorite_icon = '⭐' if nota.favorite else '☆'
+        notes_li.append(note_template.format(id=nota.id, title=nota.title, details=nota.content, favorite_icon=favorite_icon))
     notes = '\n'.join(notes_li)
 
     # Monta a página final
@@ -58,3 +59,7 @@ def editar(request, note_id):
 
 def pagina_nao_encontrada(request):
     return build_response(load_template('404.html'), code=404, reason='Not Found')
+
+def favoritar(request, note_id):
+    db.toggle_favorite(note_id)
+    return build_response(code=303, reason='See Other', headers='Location: /')
