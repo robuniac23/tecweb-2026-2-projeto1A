@@ -33,3 +33,25 @@ def index(request):
 def deletar(request, note_id):
     db.delete(note_id)
     return build_response(code=303, reason='See Other', headers='Location: /')
+
+def editar(request, note_id):
+    if request.startswith('POST'):
+        request = request.replace('\r', '')
+        partes = request.split('\n\n')
+        corpo = partes[1]
+        params = {}
+        for chave_valor in corpo.split('&'):
+            chave, valor = chave_valor.split('=', 1)
+            params[chave] = unquote_plus(valor)
+
+        db.update(Note(id=note_id, title=params['titulo'], content=params['detalhes']))
+
+        return build_response(code=303, reason='See Other', headers='Location: /')
+
+    nota = db.get_id(note_id)
+    if nota is None:
+        return build_response(code=404, reason='Not Found')
+
+    template = load_template('editar.html')
+    pagina = template.format(id=nota.id, title=nota.title, details=nota.content)
+    return build_response(pagina)

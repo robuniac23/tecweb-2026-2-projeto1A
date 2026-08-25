@@ -1,7 +1,7 @@
 import socket
 from pathlib import Path
 from utils import extract_route, read_file, build_response
-from views import index, deletar
+from views import index, deletar, editar
 
 CUR_DIR = Path(__file__).parent
 SERVER_HOST = 'localhost'
@@ -33,6 +33,9 @@ while True:
     elif len(partes_rota) == 3 and partes_rota[0] == 'delete' and partes_rota[2] == 'confirmar':
         note_id = int(partes_rota[1])
         response = deletar(request, note_id)
+    elif len(partes_rota) == 2 and partes_rota[0] == 'edit':
+        note_id = int(partes_rota[1])
+        response = editar(request, note_id)
     else:
         response = build_response(code=404, reason='Not Found')
 
