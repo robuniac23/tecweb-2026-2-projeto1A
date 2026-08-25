@@ -1,6 +1,8 @@
 from urllib.parse import unquote_plus
-from utils import extract_route, read_file, load_data, load_template, save_note, build_response
+from utils import extract_route, read_file, load_template, build_response
+from database import Database, Note
 
+db = Database('banco')
 
 def index(request):
     # A string de request sempre começa com o tipo da requisição (ex: GET, POST)
@@ -13,15 +15,15 @@ def index(request):
             chave, valor = chave_valor.split('=', 1)
             params[chave] = unquote_plus(valor)
 
-        save_note(params['titulo'], params['detalhes'])
+        db.add(Note(title=params['titulo'], content=params['detalhes']))
 
         return build_response(code=303, reason='See Other', headers='Location: /')
 
     # Monta a lista de anotações
     note_template = load_template('components/note.html')
     notes_li = []
-    for dados in load_data('notes.json'):
-        notes_li.append(note_template.format(title=dados['titulo'], details=dados['detalhes']))
+    for nota in db.get_all():
+        notes_li.append(note_template.format(title=nota.title, details=nota.content))
     notes = '\n'.join(notes_li)
 
     # Monta a página final
