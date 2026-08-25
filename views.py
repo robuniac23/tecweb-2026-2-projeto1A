@@ -29,15 +29,6 @@ def index(request):
     # Monta a página final
     return build_response(load_template('index.html').format(notes=notes))
 
-def confirmar_delete(request, note_id):
-    nota = db.get_id(note_id)
-    if nota is None:
-        return build_response(code=404, reason='Not Found')
-
-    template = load_template('confirm-delete.html')
-    pagina = template.format(id=nota.id, title=nota.title, details=nota.content)
-    return build_response(pagina)
-
 
 def deletar(request, note_id):
     db.delete(note_id)

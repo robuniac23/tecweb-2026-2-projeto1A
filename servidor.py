@@ -1,7 +1,7 @@
 import socket
 from pathlib import Path
 from utils import extract_route, read_file, build_response
-from views import index
+from views import index, deletar
 
 CUR_DIR = Path(__file__).parent
 SERVER_HOST = 'localhost'
@@ -24,12 +24,17 @@ while True:
     route = extract_route(request)
 
     filepath = CUR_DIR / route
+    partes_rota = route.split('/')
+
     if filepath.is_file():
         response = build_response() + read_file(filepath)
     elif route == '':
         response = index(request)
+    elif len(partes_rota) == 3 and partes_rota[0] == 'delete' and partes_rota[2] == 'confirmar':
+        note_id = int(partes_rota[1])
+        response = deletar(request, note_id)
     else:
-        response = build_response()
+        response = build_response(code=404, reason='Not Found')
 
     client_connection.sendall(response)
 

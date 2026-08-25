@@ -43,6 +43,19 @@
       <div class="card-container">
         {notes}
       </div>
+
+      <div id="popup-overlay" class="popup-overlay">
+        <div class="popup-box">
+          <p class="popup-question">Tem certeza que quer apagar essa anotação?</p>
+          <p><strong>Título:</strong> <span id="popup-title"></span></p>
+          <p><strong>Conteúdo:</strong> <span id="popup-details"></span></p>
+          <div class="popup-buttons">
+            <a id="popup-confirm" href="#" class="btn btn-confirm">Sim</a>
+            <button id="popup-cancel" class="btn btn-cancel">Não</button>
+          </div>
+        </div>
+      </div>  
+
     </main>
 
     <script type="text/javascript" src="getit.js"></script>
