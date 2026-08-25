@@ -18,11 +18,6 @@ def read_file(filepath):
         content = file.read()
     return content
 
-def load_data(filename):
-    filepath = Path('data') / filename
-    with open(filepath, 'r', encoding='utf-8') as file:
-        data = json.load(file)
-    return data
 
 def load_template(filename):
     filepath = Path('templates') / filename
@@ -30,12 +25,6 @@ def load_template(filename):
         content = file.read()
     return content
 
-def save_note(titulo, detalhes):
-    notes = load_data('notes.json')
-    notes.append({'titulo': titulo, 'detalhes': detalhes})
-    filepath = Path('data') / 'notes.json'
-    with open(filepath, 'w', encoding='utf-8') as file:
-        json.dump(notes, file, ensure_ascii=False, indent=2)
 
 def build_response(body='', code=200, reason='OK', headers=''):
     response_line = f'HTTP/1.1 {code} {reason}\n'

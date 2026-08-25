@@ -15,8 +15,13 @@ def index(request):
             chave, valor = chave_valor.split('=', 1)
             params[chave] = unquote_plus(valor)
 
-        db.add(Note(title=params['titulo'], content=params['detalhes']))
+        titulo = params['titulo'].strip()
+        detalhes = params['detalhes'].strip()
 
+        if titulo == '' or detalhes == '':
+            return build_response(code=303, reason='See Other', headers='Location: /')
+
+        db.add(Note(title=titulo, content=detalhes))
         return build_response(code=303, reason='See Other', headers='Location: /')
 
     # Monta a lista de anotações
@@ -45,8 +50,13 @@ def editar(request, note_id):
             chave, valor = chave_valor.split('=', 1)
             params[chave] = unquote_plus(valor)
 
-        db.update(Note(id=note_id, title=params['titulo'], content=params['detalhes']))
+        titulo = params['titulo'].strip()
+        detalhes = params['detalhes'].strip()
 
+        if titulo == '' or detalhes == '':
+            return build_response(code=303, reason='See Other', headers='Location: /')
+
+        db.update(Note(id=note_id, title=titulo, content=detalhes))
         return build_response(code=303, reason='See Other', headers='Location: /')
 
     nota = db.get_id(note_id)

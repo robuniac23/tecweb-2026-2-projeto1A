@@ -54,7 +54,8 @@ class Database:
             id = linha[0]
             title = linha[1]
             content = linha[2]
-            return Note(id=id, title=title, content=content)
+            favorite = linha[3]
+            return Note(id=id, title=title, content=content, favorite=favorite)
         return None
 
     def update(self, entry):
