@@ -1,7 +1,7 @@
 import socket
 from pathlib import Path
 from utils import extract_route, read_file, build_response
-from views import index, deletar, editar
+from views import index, deletar, editar, pagina_nao_encontrada
 
 CUR_DIR = Path(__file__).parent
 SERVER_HOST = 'localhost'
@@ -37,7 +37,7 @@ while True:
         note_id = int(partes_rota[1])
         response = editar(request, note_id)
     else:
-        response = build_response(code=404, reason='Not Found')
+        response = pagina_nao_encontrada(request)
 
     client_connection.sendall(response)
 

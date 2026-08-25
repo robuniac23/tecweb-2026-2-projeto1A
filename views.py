@@ -55,3 +55,6 @@ def editar(request, note_id):
     template = load_template('editar.html')
     pagina = template.format(id=nota.id, title=nota.title, details=nota.content)
     return build_response(pagina)
+
+def pagina_nao_encontrada(request):
+    return build_response(load_template('404.html'), code=404, reason='Not Found')
