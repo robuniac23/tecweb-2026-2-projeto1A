@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get-it</title>
+    <link rel="stylesheet" href="getit.css" />
+  </head>
+  <body>
+    <div class="appbar">
+      <img src="img/logo-getit.png" class="logo" />
+      <span class="subtitle">Como o Post-it, mas com outro verbo</span>
+    </div>
+
+    <main class="container">
+      <form class="edit-box" method="post" action="/edit/{id}">
+        <input
+          class="edit-title"
+          type="text"
+          name="titulo"
+          value="{title}"
+        />
+        <textarea class="edit-details autoresize" name="detalhes">{details}</textarea>
+        <div class="popup-buttons">
+          <a href="/" class="btn btn-cancel">Cancelar</a>
+          <button class="btn" type="submit">Salvar</button>
+        </div>
+      </form>
+    </main>
+
+    <script type="text/javascript" src="getit.js"></script>
+  </body>
+</html>
