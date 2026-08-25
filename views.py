@@ -23,8 +23,22 @@ def index(request):
     note_template = load_template('components/note.html')
     notes_li = []
     for nota in db.get_all():
-        notes_li.append(note_template.format(title=nota.title, details=nota.content))
+        notes_li.append(note_template.format(id=nota.id, title=nota.title, details=nota.content))
     notes = '\n'.join(notes_li)
 
     # Monta a página final
     return build_response(load_template('index.html').format(notes=notes))
+
+def confirmar_delete(request, note_id):
+    nota = db.get_id(note_id)
+    if nota is None:
+        return build_response(code=404, reason='Not Found')
+
+    template = load_template('confirm-delete.html')
+    pagina = template.format(id=nota.id, title=nota.title, details=nota.content)
+    return build_response(pagina)
+
+
+def deletar(request, note_id):
+    db.delete(note_id)
+    return build_response(code=303, reason='See Other', headers='Location: /')
